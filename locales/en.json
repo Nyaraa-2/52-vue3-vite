@@ -11,6 +11,11 @@
     "form_5": "Don't have an account yet?",
     "form_6": "Login",
     "form_7": "There is no account for the address ",
-    "form_8": "Pseudo"
+    "form_8": "Pseudo",
+    "choose": "Selects the type of Ludi",
+    "subscribe": "Subscribe",
+    "course": "Chariot race",
+    "lutte": "Fight",
+    "athletisme": "Athletics"
   }
 }

@@ -1,5 +1,119 @@
 <script lang="ts" setup>
+import { getLanistes } from '@/services/fakeApi'
+import Gladiator from '@/components/Gladiator.vue'
+import Ludi from '@/components/Ludi.vue'
+import Forms from '../components/Forms.vue'
+import Pseudo from '@/components/Pseudo.vue'
+export interface Laniste {
+  id: string
+  email: string
+  password: string
+  laniste: string
+}
+export interface Gladiator {
+  id: string
+  nom: string
+  adresse: number
+  force: number
+  equilibre: number
+  vitesse: string
+  strategie: string
+  url_image: string
+  ludiId: number
+}
+// export interface Account {
+//   email: string
+//   pseudo: string
+//   password: string
+// }
+const mail = ref('')
+const mdp = ref('')
+const laniste = ref('')
+const router = useRouter()
 const { t } = useI18n()
+const getAccount = (email: string, password: string) => {
+  mail.value = email
+  mdp.value = password
+  console.log(mail.value)
+  step.value++
+}
+const getPseudo = (pseudo: string) => {
+  laniste.value = pseudo
+  step.value++
+}
+const getLudiChosen = async (type: string, name: string) => {
+  ludiChosenByUser.value = type
+  nameLudi.value = name
+  await doRegistration()
+  const idUser = await doCreateLudi()
+  if (errorFetch == null) {
+    router.push({ name: '/test', params: { id: `${idUser}` } })
+  }
+}
+
+const ludiChosenByUser = ref()
+const nameLudi = ref()
+const step = ref(1)
+
+// const account: Account = {
+//   email: '',
+//   password: '',
+//   pseudo: '',
+// }
+
+const errorFetch = ref()
+const doRegistration = async () => {
+  try {
+    await fetch('http://localhost:3000/lanistes', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: mail.value,
+        password: mdp.value,
+        laniste: laniste.value,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => {
+      if (!response.ok) {
+        errorFetch.value = response.status
+      }
+    })
+  } catch (error) {
+    errorFetch.value = error
+  }
+}
+
+const doCreateLudi = async () => {
+  try {
+    const id = await getId()
+    await fetch('http://localhost:3000/ludis', {
+      method: 'POST',
+      body: JSON.stringify({
+        nom: nameLudi.value,
+        specialie: ludiChosenByUser.value[0],
+        lanisteId: id?.id,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    }).then((response) => {
+      if (!response.ok) {
+        errorFetch.value = response.status
+      } else {
+        return id
+      }
+    })
+  } catch (error) {
+    errorFetch.value = error
+  }
+}
+const lanistes = ref(<Array<Laniste>>[])
+const getId = async () => {
+  lanistes.value = await getLanistes()
+  const id = lanistes.value.find((x) => x.email == mail.value)
+  return id
+}
 </script>
 <template>
   <div class="h-screen flex">
@@ -8,125 +122,19 @@ const { t } = useI18n()
     >
       <div class="w-full px-8 md:px-32 lg:px-24">
         <div class="bg-white rounded-md shadow-2xl p-5">
-          <h1 class="text-gray-800 font-bold text-2xl mb-1">
-            {{ t('Home_Page.Welcome') }}
-          </h1>
-          <div class="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-              />
-            </svg>
-            <label for="email" hidden />
-            <input
-              id="email"
-              class="pl-2 w-full outline-none border-none"
-              type="email"
-              name="email"
-              :placeholder="t('Home_Page.form_3')"
-            />
-          </div>
-          <div class="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 text-gray-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <input
-              class="pl-2 w-full outline-none border-none"
-              type="password"
-              name="password"
-              id="password"
-              :placeholder="t('Home_Page.form_4')"
-            />
-          </div>
-          <div class="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
-            <label for="nom" hidden />
-            <input
-              id="name"
-              class="pl-2 w-full outline-none border-none"
-              type="text"
-              name="name"
-              :placeholder="t('Home_Page.form_')"
-            />
-          </div>
-
-          <div class="flex">
-            <div class="flex items-center mr-4">
-              <label
-                for="inline-checked-checkbox"
-                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Choisi ton Ludi :</label
-              >
-            </div>
-            <div class="flex items-center mr-4">
-              <input
-                id="inline-checkbox"
-                type="checkbox"
-                value=""
-                class="w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="inline-checkbox"
-                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Course de char</label
-              >
-            </div>
-            <div class="flex items-center mr-4">
-              <input
-                id="inline-2-checkbox"
-                type="checkbox"
-                value=""
-                class="w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="inline-2-checkbox"
-                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Lutte</label
-              >
-            </div>
-            <div class="flex items-center mr-4">
-              <input
-                id="inline-checked-checkbox"
-                type="checkbox"
-                value=""
-                class="w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                for="inline-checked-checkbox"
-                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >Athlétisme</label
-              >
-            </div>
-          </div>
-
-          <button
-            class="block w-full bg-red-500 mt-5 py-2 rounded-2xl hover:bg-red-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
+          <h1
+            class="w-20 bg-red-500 mt-5 ml-5 py-2 px-2 rounded-2xl text-white font-semibold mb-2 text-center"
           >
-            {{ t('Home_Page.form_6') }}
-          </button>
-          <div class="flex justify-between mt-4">
-            <a
-              href="#"
-              class="text-sm ml-2 hover:text-red-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
-              >{{ t('Home_Page.form_5') }}</a
-            >
+            Etape {{ step }}
+          </h1>
+          <div v-if="step == 1">
+            <Forms @registration="getAccount" />
+          </div>
+          <div v-if="step == 2">
+            <Pseudo @pseudo="getPseudo" />
+          </div>
+          <div v-if="step == 3">
+            <Ludi @ludi="getLudiChosen" />
           </div>
         </div>
       </div>

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { clampArrayRange } from '.pnpm/@antfu+utils@0.5.1/node_modules/@antfu/utils'
-import { getLanistes } from '@/services/lanistes'
+import { getLanistes } from '@/services/fakeApi'
 export interface Laniste {
   id: string
   email: string
@@ -119,6 +118,7 @@ const connexion = async () => {
           </button>
           <div class="flex justify-between mt-4">
             <a
+              @click="router.push('/register')"
               href="#"
               class="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
               >{{ t('Home_Page.form_5') }}</a

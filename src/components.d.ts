@@ -5,7 +5,11 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    CreateGladiator: typeof import('./components/CreateGladiator.vue')['default']
+    Forms: typeof import('./components/Forms.vue')['default']
+    Gladiator: typeof import('./components/Gladiator.vue')['default']
+    Ludi: typeof import('./components/Ludi.vue')['default']
+    Pseudo: typeof import('./components/Pseudo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
