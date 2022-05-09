@@ -1,0 +1,16 @@
+{
+  "Home_Page": {
+    "title": "Circus Game",
+    "subtitle": "Time to fight !",
+    "subtitle_registrer": "Register",
+    "Welcome": "Welcome !",
+    "form_1": "Hello Again!",
+    "form_2": "Welcome Back",
+    "form_3": "Email Address",
+    "form_4": "Password",
+    "form_5": "Don't have an account yet?",
+    "form_6": "Login",
+    "form_7": "There is no account for the address ",
+    "form_8": "Pseudo"
+  }
+}

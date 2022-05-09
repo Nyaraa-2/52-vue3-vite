@@ -1,0 +1,16 @@
+{
+  "Home_Page": {
+    "title": "Jeux du cirque",
+    "subtitle": "Au combat !",
+    "subtitle_registrer": "Inscription",
+    "Welcome": "Bienvenue",
+    "form_1": "Bonjour à nouveau!",
+    "form_2": "Bon retour parmis nous",
+    "form_3": "Adresse email",
+    "form_4": "Mot de passe",
+    "form_5": "Vous ne possèdez pas encore de compte?",
+    "form_6": "Connexion",
+    "form_7": "Il n'existe pas de compte pour l'adresse ",
+    "form_8": "Pseudo"
+  }
+}
