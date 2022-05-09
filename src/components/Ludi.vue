@@ -25,11 +25,11 @@ const isLudiAlreadySelected = computed(() => {
         id="name"
         type="text"
         v-model="nameLudi"
-        class="w-1/2 h-8 text-red-600 bg-gray-300 rounded border-gray-800 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-red-700 dark:border-gray-900"
+        class="w-1/2 h-8 text-red-600 bg-gray-200 rounded border-gray-400 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-600 focus:ring-2 dark:bg-red-700 dark:border-gray-900"
       />
     </h1>
     <div
-      class="flex items-center justify-center border-2 mb-8 py-2 px-3 rounded-2xl"
+      class="flex items-center justify-center border-2 mb-8 py-2 px-3 rounded-2xl w-2/3 m-auto"
     >
       <div class="flex items-center mr-4">Choisir le type de Ludi :</div>
       <div class="flex items-center mr-4">

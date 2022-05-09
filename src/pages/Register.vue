@@ -73,7 +73,7 @@ const getLudiChosen = async (type: string, name: string) => {
   nameLudi.value = name
   await doRegistration()
   await doCreateLudi()
-  router.push(`/test/${id.value.id}`)
+  router.push(`/laniste/${id.value.id}`)
 }
 
 /**

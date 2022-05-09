@@ -119,7 +119,6 @@ const connexion = async () => {
           <div class="flex justify-between mt-4">
             <a
               @click="router.push('/register')"
-              href="#"
               class="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
               >{{ t('Home_Page.form_5') }}</a
             >
