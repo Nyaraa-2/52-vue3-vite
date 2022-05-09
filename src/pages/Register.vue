@@ -45,10 +45,8 @@ const getLudiChosen = async (type: string, name: string) => {
   ludiChosenByUser.value = type
   nameLudi.value = name
   await doRegistration()
-  const idUser = await doCreateLudi()
-  if (errorFetch == null) {
-    router.push({ name: '/test', params: { id: `${idUser}` } })
-  }
+  await doCreateLudi()
+  router.push(`/test/${id.value.id}`)
 }
 
 const ludiChosenByUser = ref()
@@ -77,6 +75,7 @@ const doRegistration = async () => {
     }).then((response) => {
       if (!response.ok) {
         errorFetch.value = response.status
+        console.log('fail registration')
       }
     })
   } catch (error) {
@@ -86,13 +85,13 @@ const doRegistration = async () => {
 
 const doCreateLudi = async () => {
   try {
-    const id = await getId()
+    await getId()
     await fetch('http://localhost:3000/ludis', {
       method: 'POST',
       body: JSON.stringify({
         nom: nameLudi.value,
         specialie: ludiChosenByUser.value[0],
-        lanisteId: id?.id,
+        lanisteId: id.value.id,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -100,19 +99,21 @@ const doCreateLudi = async () => {
     }).then((response) => {
       if (!response.ok) {
         errorFetch.value = response.status
+        console.log('fail ludi')
       } else {
-        return id
+        console.log(id.value.id)
+        return id.value.id
       }
     })
   } catch (error) {
     errorFetch.value = error
   }
 }
+const id = ref()
 const lanistes = ref(<Array<Laniste>>[])
 const getId = async () => {
   lanistes.value = await getLanistes()
-  const id = lanistes.value.find((x) => x.email == mail.value)
-  return id
+  id.value = lanistes.value.find((x) => x.email == mail.value)
 }
 </script>
 <template>
