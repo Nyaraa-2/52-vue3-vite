@@ -4,12 +4,18 @@ import Gladiator from '@/components/Gladiator.vue'
 import Ludi from '@/components/Ludi.vue'
 import Forms from '../components/Forms.vue'
 import Pseudo from '@/components/Pseudo.vue'
+/**
+ * Model Laniste
+ */
 export interface Laniste {
   id: string
   email: string
   password: string
   laniste: string
 }
+/**
+ * Modele glad
+ */
 export interface Gladiator {
   id: string
   nom: string
@@ -21,26 +27,47 @@ export interface Gladiator {
   url_image: string
   ludiId: number
 }
-// export interface Account {
-//   email: string
-//   pseudo: string
-//   password: string
-// }
+
+/** Datas */
 const mail = ref('')
 const mdp = ref('')
 const laniste = ref('')
+const ludiChosenByUser = ref()
+const nameLudi = ref()
+const step = ref(1)
+const id = ref()
+const lanistes = ref(<Array<Laniste>>[])
+const errorFetch = ref()
 const router = useRouter()
 const { t } = useI18n()
+
+/**
+ * Récupère les informations lors de la première étape de l'inscription
+ * @param email email inscription
+ * @param password mot de passe
+ */
 const getAccount = (email: string, password: string) => {
   mail.value = email
   mdp.value = password
   console.log(mail.value)
   step.value++
 }
+/**
+ * Récupère les informations lors de la seconde étape de l'inscription
+ * @param pseudo pseudo inscription
+ */
 const getPseudo = (pseudo: string) => {
   laniste.value = pseudo
   step.value++
 }
+
+/**
+ * Récupère les informations lors de la dernière étape de l'inscription
+ * Effectue l'inscription + enregistrement du ludi
+ * Envoi vers la page de profil avec l'id utilisateur
+ * @param type type de ludi choisi
+ * @param name nom du ludi choisi
+ */
 const getLudiChosen = async (type: string, name: string) => {
   ludiChosenByUser.value = type
   nameLudi.value = name
@@ -49,17 +76,9 @@ const getLudiChosen = async (type: string, name: string) => {
   router.push(`/test/${id.value.id}`)
 }
 
-const ludiChosenByUser = ref()
-const nameLudi = ref()
-const step = ref(1)
-
-// const account: Account = {
-//   email: '',
-//   password: '',
-//   pseudo: '',
-// }
-
-const errorFetch = ref()
+/**
+ * Post inscription
+ */
 const doRegistration = async () => {
   try {
     await fetch('http://localhost:3000/lanistes', {
@@ -75,7 +94,6 @@ const doRegistration = async () => {
     }).then((response) => {
       if (!response.ok) {
         errorFetch.value = response.status
-        console.log('fail registration')
       }
     })
   } catch (error) {
@@ -83,6 +101,9 @@ const doRegistration = async () => {
   }
 }
 
+/**
+ * Post Ludi
+ */
 const doCreateLudi = async () => {
   try {
     await getId()
@@ -99,18 +120,18 @@ const doCreateLudi = async () => {
     }).then((response) => {
       if (!response.ok) {
         errorFetch.value = response.status
-        console.log('fail ludi')
       } else {
         console.log(id.value.id)
-        return id.value.id
       }
     })
   } catch (error) {
     errorFetch.value = error
   }
 }
-const id = ref()
-const lanistes = ref(<Array<Laniste>>[])
+
+/**
+ * Récupère l'id du laniste inséré
+ */
 const getId = async () => {
   lanistes.value = await getLanistes()
   id.value = lanistes.value.find((x) => x.email == mail.value)
