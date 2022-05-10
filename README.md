@@ -1,8 +1,39 @@
 
-### Built With
+# 52-vue3-vite
+
+`pnpm install`
+`pnpm run dev`
+#### Built With
 ![GitHub top language](https://img.shields.io/github/languages/top/Nyaraa-2/52-vue3-vite)
 
-### The Circus Game :heart_eyes:
+#### Packages
+
+```
+
+Components : 
+  unplugin-vue-components : https://www.npmjs.com/package/unplugin-vue-components
+  unplungin-auto-import : https://www.npmjs.com/package/unplugin-auto-import
+vue-i18n : 
+  https://github.com/intlify/vite-plugin-vue-i18n - https://vue-i18n.intlify.dev/ 
+store : 
+  Pinia : https://pinia.vuejs.org/
+  Persiste State : https://github.com/prazdevs/pinia-plugin-persistedstate
+Pages : 
+  https://github.com/hannoeru/vite-plugin-pages
+And : 
+  @vueuse/core
+  @types/node
+```
+
+## JsonServer : 
+```
+> json-server db.json
+  \{^_^}/ hi!
+  Loading db.json : https://github.com/foreach-academy/52-fake-api
+```
+
+
+## The Circus Game :heart_eyes:
 Cette application 52 avant notre ère : Les jeux du cirque est un jeu dans lequel les plus féroces lanistes (propriétaire d’école de gladiateurs) vont s’affronter.
 # Vue 3 + TypeScript + Vite
 
@@ -20,9 +51,6 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
 
 You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
-# 52-vue3-vite
 
-`pnpm install`
-`pnpm run dev`
 
 
