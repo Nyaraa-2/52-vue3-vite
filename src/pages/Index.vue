@@ -16,17 +16,14 @@ const lanistes = ref(<Array<Laniste>>[])
 const connexion = async () => {
   try {
     lanistes.value = await getLanistes()
-    lanistes.value.forEach((i) => {
-      if (email.value == i.email && password.value == i.password) {
-        router.push('/laniste')
-      } else {
-        if (email.value != i.email) {
-          email.value = email.value
-          noAccount.value = t('Home_Page.form_7') + `${email.value}`
-          router.push('/')
-        }
-      }
-    })
+    const laniste = lanistes.value.find((x) => x.email === email.value)
+    if (laniste) {
+      router.push(`/laniste/${laniste.id}`)
+    } else {
+      email.value = email.value
+      noAccount.value = t('Home_Page.form_7') + `${email.value}`
+      router.push('/')
+    }
   } catch (e) {
     error.value = e
   }

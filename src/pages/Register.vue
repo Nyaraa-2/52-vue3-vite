@@ -111,7 +111,7 @@ const doCreateLudi = async () => {
       method: 'POST',
       body: JSON.stringify({
         nom: nameLudi.value,
-        specialie: ludiChosenByUser.value[0],
+        specialite: ludiChosenByUser.value[0],
         lanisteId: id.value.id,
       }),
       headers: {
