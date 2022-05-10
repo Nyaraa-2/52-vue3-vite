@@ -8,6 +8,8 @@ declare module '@vue/runtime-core' {
     CreateGladiator: typeof import('./components/CreateGladiator.vue')['default']
     Forms: typeof import('./components/Forms.vue')['default']
     Gladiator: typeof import('./components/Gladiator.vue')['default']
+    Layout: typeof import('./components/Layout.vue')['default']
+    LayoutCreateLudi: typeof import('./components/LayoutCreateLudi.vue')['default']
     Ludi: typeof import('./components/Ludi.vue')['default']
     Pseudo: typeof import('./components/Pseudo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

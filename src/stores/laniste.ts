@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 export interface Laniste {
-  id: string
+  id: number
   email: string
   password: string
   laniste: string
@@ -42,7 +42,7 @@ export interface Gladiateur {
  * Template laniste
  */
 const templateUser: Laniste = {
-  id: '',
+  id: 0,
   email: '',
   password: '',
   laniste: '',
@@ -67,7 +67,6 @@ export const useLanisteStore = defineStore('laniste', {
         case 'COURSE_DE_CHAR':
           switch (typeOfTraining) {
             case 'physique':
-              console.log('course de char entrainement physique')
               this.SetStatistiquesGladiator(gladiateur, this.GetPJ(2, 4))
               break
             case 'tactique':
@@ -81,19 +80,25 @@ export const useLanisteStore = defineStore('laniste', {
           switch (typeOfTraining) {
             case 'physique':
               this.SetStatistiquesGladiator(gladiateur, this.GetPJ(3, 6))
+              break
             case 'tactique':
               this.SetStatistiquesGladiator(gladiateur, this.GetPJ(1, 3))
+              break
             case 'combine':
               this.SetStatistiquesGladiator(gladiateur, this.GetPJ(1, 5))
+              break
           }
         case 'ATHLETISME':
           switch (typeOfTraining) {
             case 'physique':
               this.SetStatistiquesGladiator(gladiateur, this.GetPJ(3, 5))
+              break
             case 'tactique':
               this.SetStatistiquesGladiator(gladiateur, this.GetPJ(2, 3))
+              break
             case 'combine':
               this.SetStatistiquesGladiator(gladiateur, this.GetPJ(3, 9))
+              break
           }
       }
     },
@@ -104,11 +109,7 @@ export const useLanisteStore = defineStore('laniste', {
      * @returns random
      */
     GetPJ(min: number, max: number) {
-      let difference = max + 1 - min
-      let rand = Math.random()
-      rand = Math.floor(rand * difference)
-      rand = rand + min
-      return Math.round(rand)
+      return Math.round(Math.floor(Math.random() * (max - min + 1)) + min)
     },
     /**
      * Modifie les statistiques d'un gladiateur en fonction de la PJ
@@ -123,6 +124,49 @@ export const useLanisteStore = defineStore('laniste', {
       gladiateur.vitesse = (vitesseToInt += 0.5 * pj).toString()
       let strategieToInt = parseInt(gladiateur.strategie)
       gladiateur.strategie = (strategieToInt -= 0.2 * pj).toString()
+    },
+    async createGladiator(name: string, idludi: number) {
+      try {
+        const gladiateur: Gladiateur = {
+          id: 0,
+          nom: name,
+          adresse: Math.round(Math.floor(Math.random() * (3 - 0 + 1)) + 0),
+          force: Math.round(Math.floor(Math.random() * (3 - 0 + 1)) + 0),
+          equilibre: Math.round(Math.floor(Math.random() * (3 - 0 + 1)) + 0),
+          vitesse: Math.round(
+            Math.floor(Math.random() * (3 - 0 + 1)) + 0
+          ).toString(),
+          strategie: Math.round(
+            Math.floor(Math.random() * (3 - 0 + 1)) + 0
+          ).toString(),
+          ludiId: idludi,
+        }
+        await fetch('http://localhost:3000/gladiateurs', {
+          method: 'POST',
+          body: JSON.stringify({
+            nom: gladiateur.nom,
+            adresse: gladiateur.adresse,
+            force: gladiateur.force,
+            equilibre: gladiateur.equilibre,
+            vitesse: gladiateur.vitesse,
+            strategie: gladiateur.strategie,
+            ludiId: idludi,
+          }),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        }).then((r) => {
+          if (!r.ok) {
+            return r.status
+          } else {
+            const test = r.json().then()
+            console.log(test)
+            gladiateur.id = this.laniste.gladiateurs.push(gladiateur)
+          }
+        })
+      } catch (error) {
+        return error
+      }
     },
   },
   getters: {},
