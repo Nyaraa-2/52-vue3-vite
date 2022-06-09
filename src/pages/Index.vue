@@ -15,7 +15,6 @@ const connexion = async (mail: string, password: string) => {
       router.push(`/laniste/${laniste.id}`)
     } else {
       const allLanistes = await getLanistes()
-      console.log(allLanistes)
       const accountExist = allLanistes.find(
         (x: { email: string }) => x.email === email.value
       )
@@ -59,6 +58,16 @@ const connexion = async (mail: string, password: string) => {
           >
             <span class="font-medium">{{ userMessageConnexion }}</span>
           </div>
+          <div
+            v-if="error"
+            class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
+            role="alert"
+          >
+            <p class="font-bold">{{ t('Error.homePage') }}</p>
+            <p>{{ error }}</p>
+            <p></p>
+          </div>
+          <br />
           <h1 class="text-gray-800 font-bold text-2xl mb-1">
             {{ t('Home_Page.form_1') }}
           </h1>

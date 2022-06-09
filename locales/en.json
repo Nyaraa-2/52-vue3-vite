@@ -18,5 +18,8 @@
     "course": "Chariot race",
     "lutte": "Fight",
     "athletisme": "Athletics"
+  },
+  "Error": {
+    "homePage": "Error when trying to connect"
   }
 }

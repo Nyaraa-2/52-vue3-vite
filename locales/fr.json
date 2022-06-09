@@ -18,5 +18,8 @@
     "course": "Course de char",
     "lutte": "Lutte",
     "athletisme": "Athlétisme"
+  },
+  "Error": {
+    "homePage": "Erreur rencontrée lors de la tentative de connexion"
   }
 }
