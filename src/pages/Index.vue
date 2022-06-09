@@ -1,28 +1,33 @@
 <script lang="ts" setup>
-import { getLanistes } from '@/services/fakeApi'
-export interface Laniste {
-  id: string
-  email: string
-  password: string
-  laniste: string
-}
+import { getLanistes, getUserAccount } from '@/services/fakeApi'
+
 const router = useRouter()
-const noAccount = ref()
+const userMessageConnexion = ref()
 const { t } = useI18n()
 const email = ref('')
 const password = ref('')
 const error = ref()
-const lanistes = ref(<Array<Laniste>>[])
-const connexion = async () => {
+
+const connexion = async (mail: string, password: string) => {
   try {
-    lanistes.value = await getLanistes()
-    const laniste = lanistes.value.find((x) => x.email === email.value)
+    const laniste = await getUserAccount(mail, password)
     if (laniste) {
       router.push(`/laniste/${laniste.id}`)
     } else {
-      email.value = email.value
-      noAccount.value = t('Home_Page.form_7') + `${email.value}`
-      router.push('/')
+      const allLanistes = await getLanistes()
+      console.log(allLanistes)
+      const accountExist = allLanistes.find(
+        (x: { email: string }) => x.email === email.value
+      )
+      console.log(accountExist)
+      if (accountExist) {
+        email.value = mail
+        userMessageConnexion.value = t('Home_Page.form_9')
+        router.push('/')
+      } else {
+        userMessageConnexion.value = t('Home_Page.form_7') + `${email.value}`
+        router.push('/')
+      }
     }
   } catch (e) {
     error.value = e
@@ -48,11 +53,11 @@ const connexion = async () => {
       <div class="w-full px-8 md:px-32 lg:px-24">
         <div class="bg-white rounded-md shadow-2xl p-5">
           <div
-            v-if="noAccount"
+            v-if="userMessageConnexion"
             class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
             role="alert"
           >
-            <span class="font-medium">Stop</span> {{ noAccount }}
+            <span class="font-medium">{{ userMessageConnexion }}</span>
           </div>
           <h1 class="text-gray-800 font-bold text-2xl mb-1">
             {{ t('Home_Page.form_1') }}
@@ -108,7 +113,7 @@ const connexion = async () => {
             />
           </div>
           <button
-            @click="connexion()"
+            @click="connexion(email, password)"
             class="block w-full bg-red-500 mt-5 py-2 rounded-2xl hover:bg-red-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
           >
             {{ t('Home_Page.form_6') }}

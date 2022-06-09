@@ -3,6 +3,18 @@ import axios from 'axios'
 const fakeapi = axios.create({
   baseURL: 'http://localhost:3000/',
 })
+
+export async function getUserAccount(email: string, password: string) {
+  try {
+    const res = await fakeapi.get(
+      `/lanistes?email=${email}&password=${password}`
+    )
+    return res.data[0]
+  } catch (e) {
+    throw new Error(`La requête a échoué ${e}`)
+  }
+}
+
 /**
  * Récupère la liste des lanistes dans la fakeApi
  */
