@@ -1,13 +1,21 @@
 <script lang="ts" setup>
+import { isAccountAlreadyExist } from '@/services/fakeApi'
 const errorFetch = ref()
+const alreadyExist = ref()
 const emit = defineEmits(['registration'])
 const email = ref()
 const password = ref()
 
 const { t } = useI18n()
 
-const account = () => {
-  emit('registration', email.value, password.value)
+const account = async () => {
+  try {
+    const accountAlreadyExist = await isAccountAlreadyExist(email.value)
+    if (accountAlreadyExist) {
+    } else {
+      emit('registration', email.value, password.value)
+    }
+  } catch (error) {}
 }
 </script>
 <template>

@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { getLanistes, getUserAccount } from '@/services/fakeApi'
+import ErrorLayout from '@/components/ControlsComponents/ErrorLayout.vue'
+import UserMessages from '@/components/ControlsComponents/UserMessages.vue'
 
 const router = useRouter()
 const userMessageConnexion = ref()
@@ -18,7 +20,6 @@ const connexion = async (mail: string, password: string) => {
       const accountExist = allLanistes.find(
         (x: { email: string }) => x.email === email.value
       )
-      console.log(accountExist)
       if (accountExist) {
         email.value = mail
         userMessageConnexion.value = t('Home_Page.form_9')
@@ -51,22 +52,8 @@ const connexion = async (mail: string, password: string) => {
     >
       <div class="w-full px-8 md:px-32 lg:px-24">
         <div class="bg-white rounded-md shadow-2xl p-5">
-          <div
-            v-if="userMessageConnexion"
-            class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
-            role="alert"
-          >
-            <span class="font-medium">{{ userMessageConnexion }}</span>
-          </div>
-          <div
-            v-if="error"
-            class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4"
-            role="alert"
-          >
-            <p class="font-bold">{{ t('Error.homePage') }}</p>
-            <p>{{ error }}</p>
-            <p></p>
-          </div>
+          <UserMessages :message="userMessageConnexion" />
+          <ErrorLayout :error="error" />
           <br />
           <h1 class="text-gray-800 font-bold text-2xl mb-1">
             {{ t('Home_Page.form_1') }}

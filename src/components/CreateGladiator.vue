@@ -12,34 +12,6 @@ defineProps({
 const success = ref()
 const errorFetch = ref()
 const name = ref('')
-// const createGladiator = async (idludi: number) => {
-//   try {
-//     await fetch('http://localhost:3000/gladiateurs', {
-//       method: 'POST',
-//       body: JSON.stringify({
-//         nom: name.value,
-//         adresse: setLevelRandom(),
-//         force: setLevelRandom(),
-//         equilibre: setLevelRandom(),
-//         vitesse: setLevelRandom(),
-//         strategie: setLevelRandom(),
-//         ludiId: idludi,
-//       }),
-//       headers: {
-//         'Content-type': 'application/json; charset=UTF-8',
-//       },
-//     }).then((response) => {
-//       if (!response.ok) {
-//         errorFetch.value = response.status
-//       } else {
-//         userInfos.deniers -= 5
-//         success.value = true
-//       }
-//     })
-//   } catch (error) {
-//     errorFetch.value = error
-//   }
-// }
 const doCreateGladiator = async (idludi: number) => {
   try {
     await userInfos.createGladiator(name.value, idludi)

@@ -5,7 +5,7 @@ import { useLanisteStore } from '../../stores/laniste'
 const router = useRouter()
 const route = useRoute()
 const lanisteStore = useLanisteStore()
-const test = () => {
+const Logout = () => {
   lanisteStore.$dispose
 }
 const getGladiators = async (id: string) => {
@@ -34,7 +34,7 @@ onMounted(async () => {
           alt=""
         />
       </div>
-
+      <br />
       <div class="text-center px-14">
         <h2 class="text-gray-800 text-3xl font-bold">
           {{ lanisteStore.laniste.laniste }}
@@ -56,7 +56,7 @@ onMounted(async () => {
           Créer un nouveau Ludi
         </button>
         <button
-          @click="test(), router.push('/')"
+          @click="Logout(), router.push('/')"
           class="border-2 border-red-600 text-black px-4 py-2 ml-6 rounded-md text-1xl font-medium hover:bg-red-600 transition duration-300"
         >
           Deconnexion
@@ -64,8 +64,8 @@ onMounted(async () => {
       </div>
       <hr class="mt-6" />
 
-      <div class="grid grid-cols-3 text-center">
-        <div class="bg-gray-50" v-for="ludi in lanisteStore.laniste.ludis">
+      <div class="bg-gray-50 grid grid-cols-3 text-center <md:(grid-cols-1)">
+        <div class="bg-gray-100" v-for="ludi in lanisteStore.laniste.ludis">
           <div
             class="text-center w-1/2 p-4 m-auto hover:bg-gray-100 cursor-pointer"
           >
@@ -89,7 +89,7 @@ onMounted(async () => {
               </p>
             </a>
           </div>
-          <div class="border"></div>
+          <div w:display="hidden <md:(block)" class="border"></div>
         </div>
       </div>
     </div>

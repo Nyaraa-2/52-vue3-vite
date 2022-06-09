@@ -7,17 +7,7 @@ defineProps({
 })
 </script>
 <template>
-    <!-- <div class="flex">
-            <div
-              class="items-center mr-4 mt-3 block w-full"
-              v-for="glad in gladiators"
-              :key="glad.id"
-            >
-              <Gladiator :gladiator="glad"></Gladiator>
-            </div>
-          </div> -->
     <div>
-      <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
       <div
         class="max-w-60 min-w-60 h-64 flex flex-col justify-between bg-white dark:bg-red-800 rounded-lg border border-gray-400 mb-6 py-5 px-4"
       >

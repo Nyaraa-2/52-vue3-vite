@@ -4,12 +4,32 @@ const fakeapi = axios.create({
   baseURL: 'http://localhost:3000/',
 })
 
+/**
+ * Service connexion au compte utilisateur
+ * @param email email du compte
+ * @param password mot de passe du compte
+ * @returns compte utilisateur
+ */
 export async function getUserAccount(email: string, password: string) {
   try {
     const res = await fakeapi.get(
       `/lanistes?email=${email}&password=${password}`
     )
     return res.data[0]
+  } catch (e) {
+    throw new Error(`La requête a échoué ${e}`)
+  }
+}
+
+/**
+ * Vérifie qu'un compte existe avant l'inscription
+ * @param email email du compte
+ * @returns compte utilisateur
+ */
+export async function isAccountAlreadyExist(email: string) {
+  try {
+    const res = await fakeapi.get(`/lanistes?email=${email}`)
+    return res.data
   } catch (e) {
     throw new Error(`La requête a échoué ${e}`)
   }

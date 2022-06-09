@@ -6,6 +6,7 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CreateGladiator: typeof import('./components/CreateGladiator.vue')['default']
+    ErrorLayout: typeof import('./components/ControlsComponents/ErrorLayout.vue')['default']
     Forms: typeof import('./components/Forms.vue')['default']
     Gladiator: typeof import('./components/Gladiator.vue')['default']
     Layout: typeof import('./components/Layout.vue')['default']
@@ -14,6 +15,7 @@ declare module '@vue/runtime-core' {
     Pseudo: typeof import('./components/Pseudo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UserMessages: typeof import('./components/ControlsComponents/UserMessages.vue')['default']
   }
 }
 

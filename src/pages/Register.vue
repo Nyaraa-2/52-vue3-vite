@@ -6,15 +6,8 @@ import Forms from '../components/Forms.vue'
 import Pseudo from '@/components/Pseudo.vue'
 import Layout from '@/components/Layout.vue'
 import { useLudi } from '@/composables/useLudi'
-/**
- * Model Laniste
- */
-export interface Laniste {
-  id: string
-  email: string
-  password: string
-  laniste: string
-}
+import { Laniste } from '@/stores/laniste'
+
 /**
  * Modele glad
  */
